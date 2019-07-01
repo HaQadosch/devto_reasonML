@@ -6,26 +6,38 @@ var React = require("react");
 
 ((require('./App.css')));
 
+function countWordsInString(text) {
+  var spacesRegex = new RegExp("\\s+");
+  if (text === "") {
+    return 0;
+  } else {
+    return text.trim().split(spacesRegex).length;
+  }
+}
+
 function App(Props) {
   var match = React.useState((function () {
           return "";
         }));
   var setText = match[1];
+  var text = match[0];
   var handleTextChange = function (e) {
     return Curry._1(setText, e.target.value);
   };
+  var wordsCountText = String(countWordsInString(text)) + " words";
   return React.createElement("div", {
               className: "App"
             }, React.createElement("div", {
                   className: "header"
-                }, React.createElement("h3", undefined, "Words Counter")), React.createElement("textarea", {
+                }, React.createElement("h3", undefined, "Words Counter"), React.createElement("span", undefined, wordsCountText)), React.createElement("textarea", {
                   placeholder: "Express yourself...",
-                  value: match[0],
+                  value: text,
                   onChange: handleTextChange
                 }));
 }
 
 var make = App;
 
+exports.countWordsInString = countWordsInString;
 exports.make = make;
 /*  Not a pure module */
