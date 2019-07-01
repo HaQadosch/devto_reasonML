@@ -1,0 +1,25 @@
+{
+  "name": "devto_reasonml",
+  "version": "1.0.0",
+  "description": "small project to test reasonML.",
+  "main": "index.js",
+  "scripts": {
+    "test": "."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaQadosch/devto_reasonML.git"
+  },
+  "keywords": [
+    "reasonML"
+  ],
+  "author": "HaQadosch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HaQadosch/devto_reasonML/issues"
+  },
+  "homepage": "https://github.com/HaQadosch/devto_reasonML#readme",
+  "dependencies": {
+    "bs-platform": "^5.0.4"
+  }
+}
