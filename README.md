@@ -12,8 +12,24 @@ https://dev.to/seif_ghezala/reasonml-for-production-react-apps-part-1-3nfk
 > npx bsb -init words-counter -theme react-hooks
 > cd words-counter/
 > npm i
+```
+
+In a shell:
+```bash
 > npm run build
 ```
+
+In a second shell:
+```bash
+> npm run webpack
+```
+
+In a third shell:
+```bash
+> npm run server
+```
+
+Open a firefox tab to `localhost:8000`
 
 This generates the project with react-hooks template.
 This project becomes a [Reason-React](https://reasonml.github.io/reason-react/docs/en/installation.html "Init page") project
