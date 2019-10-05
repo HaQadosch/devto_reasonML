@@ -1,6 +1,9 @@
 # words-counter
 
-Taken from https://dev.to/seif_ghezala/reasonml-for-production-react-apps-part-1-3nfk
+Taken from
+
+  * https://dev.to/seif_ghezala/reasonml-for-production-react-apps-part-1-3nfk
+  * https://dev.to/seif_ghezala/reasonml-for-production-react-apps-part-2-362b 
 
 ## Run Project
 

@@ -1,5 +1,5 @@
 let countWordsInString = text => {
-  let spacesRegEx = Js.Re.fromString("\s+");
+  let spacesRegEx = [%re "/\s+/"];
 
   switch (text) {
   | "" => 0

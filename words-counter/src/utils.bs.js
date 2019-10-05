@@ -2,7 +2,7 @@
 
 
 function countWordsInString(text) {
-  var spacesRegEx = new RegExp("\\s+");
+  var spacesRegEx = (/\s+/);
   if (text === "") {
     return 0;
   } else {

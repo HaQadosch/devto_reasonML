@@ -11,13 +11,16 @@ function className_of_categoryButton(category) {
 }
 
 function Button(Props) {
-  var onClick = Props.onClick;
+  var match = Props.onClick;
+  var onClick = match !== undefined ? match : (function (param) {
+        return /* () */0;
+      });
   var title = Props.title;
   var children = Props.children;
-  var match = Props.disabled;
-  var disabled = match !== undefined ? match : false;
-  var match$1 = Props.category;
-  var category = match$1 !== undefined ? match$1 : /* SECONDARY */1;
+  var match$1 = Props.disabled;
+  var disabled = match$1 !== undefined ? match$1 : false;
+  var match$2 = Props.category;
+  var category = match$2 !== undefined ? match$2 : /* SECONDARY */1;
   return React.createElement("button", {
               className: className_of_categoryButton(category),
               title: title,
