@@ -6,6 +6,17 @@ import * as Button$ReactHooksTemplate from "./Button.bs.js";
 
 ((require("./Login.css")));
 
+function loginError_of_string(str) {
+  switch (str) {
+    case "EMAIL_NOT_FOUND" : 
+        return /* EMAIL_NOT_FOUND */0;
+    case "INVALID_PASSWORD" : 
+        return /* INVALID_PASSWORD */1;
+    default:
+      return /* OTHER */2;
+  }
+}
+
 function Login(Props) {
   var match = React.useState((function () {
           return "";
@@ -15,6 +26,10 @@ function Login(Props) {
           return "";
         }));
   var setPassword = match$1[1];
+  var match$2 = React.useState((function () {
+          return undefined;
+        }));
+  var error = match$2[0];
   var handleInputEmailChange = function (e) {
     return Curry._1(setEmail, e.target.value);
   };
@@ -39,7 +54,9 @@ function Login(Props) {
                           type: "email",
                           value: match[0],
                           onChange: handleInputEmailChange
-                        })), React.createElement("fieldset", undefined, React.createElement("label", {
+                        }), error !== undefined && error === 0 ? React.createElement("div", {
+                            className: "error"
+                          }, " ⚠ email not found ") : null), React.createElement("fieldset", undefined, React.createElement("label", {
                           htmlFor: "password"
                         }), React.createElement("input", {
                           id: "password",
@@ -49,7 +66,9 @@ function Login(Props) {
                           type: "password",
                           value: match$1[0],
                           onChange: handleInputPasswordChange
-                        })), React.createElement(Button$ReactHooksTemplate.make, {
+                        }), error !== undefined && error === 1 ? React.createElement("div", {
+                            className: "error"
+                          }, " ⚠ invalid password ") : null), React.createElement(Button$ReactHooksTemplate.make, {
                       title: "Login",
                       children: "Login",
                       category: /* PRIMARY */0
@@ -59,6 +78,7 @@ function Login(Props) {
 var make = Login;
 
 export {
+  loginError_of_string ,
   make ,
   
 }
