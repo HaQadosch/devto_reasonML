@@ -1,6 +1,13 @@
-[%bs.raw {|require("./App.css")|}];
-
 [@react.component]
-let make = _ => {
-  <div className="App"> <Home /> </div>;
+let make = () => {
+  let url = ReasonReactRouter.useUrl();
+
+  let page =
+    switch (url.path) {
+    | [] => <Home />
+    | ["login"] => <Login />
+    | _ => <div> {"Page not found :/" |> ReasonReact.string} </div>
+    };
+
+  <div className="App"> page </div>;
 };
