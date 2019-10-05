@@ -3,17 +3,9 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
+var Utils$ReactHooksTemplate = require("./Utils.bs.js");
 
 ((require("./App.css")));
-
-function countWordsInString(text) {
-  var spacesRegEx = new RegExp("\\s+");
-  if (text === "") {
-    return 0;
-  } else {
-    return text.trim().split(spacesRegEx).length;
-  }
-}
 
 function App(Props) {
   var match = React.useState((function () {
@@ -24,7 +16,7 @@ function App(Props) {
   var handleTextChange = function (e) {
     return Curry._1(setText, e.target.value);
   };
-  var wordsCountText = String(countWordsInString(text)) + " words";
+  var wordsCountText = String(Utils$ReactHooksTemplate.countWordsInString(text)) + " words";
   return React.createElement("div", {
               className: "App"
             }, React.createElement("header", {
@@ -38,6 +30,5 @@ function App(Props) {
 
 var make = App;
 
-exports.countWordsInString = countWordsInString;
 exports.make = make;
 /*  Not a pure module */
