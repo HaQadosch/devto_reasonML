@@ -7,11 +7,12 @@ https://dev.to/seif_ghezala/reasonml-for-production-react-apps-part-1-3nfk
 ## Set up
 
 ```bash
-> npm init
+> npm i
 > npm i bs-platform
 > npx bsb -init words-counter -theme react-hooks
 > cd words-counter/
 > npm i
+> npm start
 ```
 
 In a shell:
@@ -43,3 +44,9 @@ VS-Code [reasonML](https://marketplace.visualstudio.com/items?itemName=jaredly.r
 
 Writing some text and storing the value in a variable.
 
+### CSS 
+
+To enable the CSS in webpack you need to 
+
+  * install 2 packages: style-loader and css-loader 
+  * add a rule in the module section of the webpack config
