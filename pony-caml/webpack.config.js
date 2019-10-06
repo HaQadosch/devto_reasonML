@@ -15,9 +15,13 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
       }
-    ]
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({

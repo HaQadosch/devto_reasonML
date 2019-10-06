@@ -4,7 +4,7 @@ import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Modal$ReactHooksTemplate from "./Modal.bs.js";
 
-((require('./css/App.css')));
+((require('./App.css')));
 
 function App(Props) {
   var match = React.useState((function () {
@@ -21,8 +21,16 @@ function App(Props) {
             }, React.createElement("h2", undefined, "Parent Container"), React.createElement("h3", undefined, "This is just a demo container"), React.createElement("button", {
                   onClick: handleButtonClick
                 }, "Open modal"), match[0] ? React.createElement(Modal$ReactHooksTemplate.make, {
-                    children: React.createElement("p", undefined, "Foo")
-                  }) : null);
+                    children: null
+                  }, React.createElement(Modal$ReactHooksTemplate.Header[/* make */0], {
+                        children: "Header"
+                      }), React.createElement(Modal$ReactHooksTemplate.Body[/* make */0], {
+                        children: "Body"
+                      }), React.createElement(Modal$ReactHooksTemplate.Footer[/* make */0], {
+                        children: React.createElement(Modal$ReactHooksTemplate.Footer[/* CloseBtn */1][/* make */0], {
+                              children: "Close"
+                            })
+                      })) : null);
 }
 
 var make = App;

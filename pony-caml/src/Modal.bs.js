@@ -2,8 +2,13 @@
 
 import * as React from "react";
 import * as ReactDom from "react-dom";
+import * as CrossSvg from "./cross.svg";
 
-((require("./css/Modal.css")));
+((require("./Modal.css")));
+
+var make = CrossSvg.default;
+
+var Cross = /* module */[/* make */make];
 
 function Modal(Props) {
   var children = Props.children;
@@ -16,10 +21,57 @@ function Modal(Props) {
                     }, children)), document.body);
 }
 
-var make = Modal;
+function Modal$Header(Props) {
+  var children = Props.children;
+  return React.createElement("header", {
+              className: "modal-header"
+            }, children, React.createElement("button", {
+                  className: "cross-btn",
+                  title: "close Modal"
+                }, React.createElement(make, { })));
+}
+
+var Header = /* module */[/* make */Modal$Header];
+
+function Modal$Body(Props) {
+  var children = Props.children;
+  return React.createElement("article", {
+              className: "modal-body"
+            }, children);
+}
+
+var Body = /* module */[/* make */Modal$Body];
+
+function Modal$Footer(Props) {
+  var children = Props.children;
+  return React.createElement("footer", {
+              className: "modal-footer"
+            }, children);
+}
+
+function Modal$Footer$CloseBtn(Props) {
+  var children = Props.children;
+  return React.createElement("button", {
+              className: "close-button",
+              title: "close modal"
+            }, children);
+}
+
+var CloseBtn = /* module */[/* make */Modal$Footer$CloseBtn];
+
+var Footer = /* module */[
+  /* make */Modal$Footer,
+  /* CloseBtn */CloseBtn
+];
+
+var make$1 = Modal;
 
 export {
-  make ,
+  Cross ,
+  make$1 as make,
+  Header ,
+  Body ,
+  Footer ,
   
 }
 /*  Not a pure module */
