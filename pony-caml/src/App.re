@@ -8,6 +8,10 @@ let make = () => {
     setIsModalVisible(_ => true);
   };
 
+  let onModalClose = _ => {
+    setIsModalVisible(_ => false);
+  };
+
   <main className="app">
     <h2> {"Parent Container" |> ReasonReact.string} </h2>
     <h3> {"This is just a demo container" |> ReasonReact.string} </h3>
@@ -15,7 +19,7 @@ let make = () => {
       {"Open modal" |> ReasonReact.string}
     </button>
     {isModalVisible
-       ? <Modal>
+       ? <Modal onModalClose>
            <Modal.Header> {"Header" |> ReasonReact.string} </Modal.Header>
            <Modal.Body> {"Body" |> ReasonReact.string} </Modal.Body>
            <Modal.Footer>

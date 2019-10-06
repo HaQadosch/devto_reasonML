@@ -16,12 +16,18 @@ function App(Props) {
                   return true;
                 }));
   };
+  var onModalClose = function (param) {
+    return Curry._1(setIsModalVisible, (function (param) {
+                  return false;
+                }));
+  };
   return React.createElement("main", {
               className: "app"
             }, React.createElement("h2", undefined, "Parent Container"), React.createElement("h3", undefined, "This is just a demo container"), React.createElement("button", {
                   onClick: handleButtonClick
                 }, "Open modal"), match[0] ? React.createElement(Modal$ReactHooksTemplate.make, {
-                    children: null
+                    children: null,
+                    onModalClose: onModalClose
                   }, React.createElement(Modal$ReactHooksTemplate.Header[/* make */0], {
                         children: "Header"
                       }), React.createElement(Modal$ReactHooksTemplate.Body[/* make */0], {
