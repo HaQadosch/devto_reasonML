@@ -2,7 +2,9 @@
 
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
+import * as Js_dict from "bs-platform/lib/es6/js_dict.js";
 import * as ReactDom from "react-dom";
+import * as Caml_array from "bs-platform/lib/es6/caml_array.js";
 import * as CrossSvg from "./cross.svg";
 
 ((require("./Modal.css")));
@@ -32,14 +34,50 @@ var Cross = /* module */[/* make */make$1];
 function Modal(Props) {
   var children = Props.children;
   var onModalClose = Props.onModalClose;
-  var keyDownListener = function (e) {
-    if (e.keyCode === 27) {
-      return Curry._1(onModalClose, /* () */0);
+  var modalRef = React.useRef(null);
+  var handleTabKey = function (e) {
+    var current = modalRef.current;
+    if (current == null) {
+      return /* () */0;
     } else {
-      return 0;
+      var elements = current.querySelectorAll("a[href], button, textarea, input[type='text'], input[type='radion'], input[type='checkbox'], select");
+      var firstElement = Caml_array.caml_array_get(elements, 0);
+      var lastElement = Caml_array.caml_array_get(elements, elements.length - 1 | 0);
+      if (!e.shiftKey && document.activeElement !== firstElement) {
+        firstElement.focus();
+        e.preventDefault();
+      }
+      if (e.shiftKey && document.activeElement !== lastElement) {
+        lastElement.focus();
+        e.preventDefault();
+        return /* () */0;
+      } else {
+        return 0;
+      }
     }
   };
+  var keyListenerMap = Js_dict.fromArray(/* array */[
+        /* tuple */[
+          "27",
+          (function (param) {
+              return Curry._1(onModalClose, /* () */0);
+            })
+        ],
+        /* tuple */[
+          "9",
+          handleTabKey
+        ]
+      ]);
   React.useEffect((function () {
+          var keyDownListener = function (e) {
+            var keyCodeStr = String(e.keyCode);
+            var match = Js_dict.get(keyListenerMap, keyCodeStr);
+            if (match !== undefined) {
+              return Curry._1(match, e);
+            } else {
+              return /* () */0;
+            }
+          };
           document.addEventListener("keydown", keyDownListener);
           return (function (param) {
                     document.removeEventListener("keyDown", keyDownListener);
@@ -51,6 +89,7 @@ function Modal(Props) {
                   className: "modal-container",
                   role: "container"
                 }, React.createElement("div", {
+                      ref: modalRef,
                       className: "modal-content"
                     }, React.createElement(make, makeProps(onModalClose, children, /* () */0)))), document.body);
 }

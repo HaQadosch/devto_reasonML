@@ -12,6 +12,9 @@ external removeKeyboardEventListener:
   (string, ReactEvent.Keyboard.t => unit) => unit =
   "removeEventListener";
 
+[@bs.scope "document"] [@bs.val]
+external activeElement: Dom.element = "activeElement";
+
 let modalContext = React.createContext(() => ());
 
 module ContextProvider = {
@@ -30,12 +33,45 @@ module Cross = {
 
 [@react.component]
 let make = (~children, ~onModalClose) => {
-  let keyDownListener = e =>
-    if (ReactEvent.Keyboard.keyCode(e) === 27) {
-      onModalClose();
+  let modalRef = React.useRef(Js.Nullable.null);
+
+  let handleTabKey = e => {
+    let current = React.Ref.current(modalRef);
+    switch (Js.Nullable.toOption(current)) {
+    | Some(elt) =>
+      let elementObj = ReactDOMRe.domElementToObj(elt);
+      let elements =
+        elementObj##querySelectorAll(
+          "a[href], button, textarea, input[type='text'], input[type='radion'], input[type='checkbox'], select",
+        );
+      let firstElement = elements[0];
+      let lastElement = elements[elements##length - 1];
+
+      if (!ReactEvent.Keyboard.shiftKey(e) && activeElement !== firstElement) {
+        firstElement##focus();
+        ReactEvent.Keyboard.preventDefault(e);
+      };
+      if (ReactEvent.Keyboard.shiftKey(e) && activeElement !== lastElement) {
+        lastElement##focus();
+        ReactEvent.Keyboard.preventDefault(e);
+      };
+
+    | None => ignore()
     };
+  };
+
+  let keyListenerMap =
+    Js.Dict.fromArray([|("27", _ => onModalClose()), ("9", handleTabKey)|]);
 
   let effect = () => {
+    let keyDownListener = e => {
+      let keyCodeStr = ReactEvent.Keyboard.keyCode(e) |> string_of_int;
+      switch (Js.Dict.get(keyListenerMap, keyCodeStr)) {
+      | Some(eventListener) => eventListener(e)
+      | None => ignore()
+      };
+    };
+
     addKeyboardEventListener("keydown", keyDownListener);
     Some(() => removeKeyboardEventListener("keyDown", keyDownListener));
   };
@@ -44,7 +80,7 @@ let make = (~children, ~onModalClose) => {
 
   ReactDOMRe.createPortal(
     <div className="modal-container" role="container" ariaModal=true>
-      <div className="modal-content">
+      <div className="modal-content" ref={ReactDOMRe.Ref.domRef(modalRef)}>
         <ContextProvider value=onModalClose> children </ContextProvider>
       </div>
     </div>,
