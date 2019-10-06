@@ -2,7 +2,9 @@
 
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
+import * as Caml_exceptions from "bs-platform/lib/es6/caml_exceptions.js";
 import * as Button$ReactHooksTemplate from "./Button.bs.js";
+import * as Request$ReactHooksTemplate from "./Request.bs.js";
 
 ((require("./Login.css")));
 
@@ -17,18 +19,30 @@ function loginError_of_string(str) {
   }
 }
 
+function handlePromiseFailure(match) {
+  if (Caml_exceptions.caml_is_extension(match) && match[0] === Request$ReactHooksTemplate.PostError) {
+    return match[1];
+  }
+  
+}
+
+var loginUrl = "some/url";
+
 function Login(Props) {
   var match = React.useState((function () {
           return "";
         }));
   var setEmail = match[1];
+  var email = match[0];
   var match$1 = React.useState((function () {
           return "";
         }));
   var setPassword = match$1[1];
+  var password = match$1[0];
   var match$2 = React.useState((function () {
           return undefined;
         }));
+  var setError = match$2[1];
   var error = match$2[0];
   var handleInputEmailChange = function (e) {
     return Curry._1(setEmail, e.target.value);
@@ -38,6 +52,28 @@ function Login(Props) {
   };
   var handleFormSubmit = function (e) {
     e.preventDefault();
+    var payload = { };
+    payload["email"] = email;
+    payload["password"] = password;
+    Request$ReactHooksTemplate.post(loginUrl, payload).then((function (param) {
+              return Promise.resolve((alert("login successful"), Curry._1(setError, (function (param) {
+                                  return undefined;
+                                }))));
+            })).catch((function (e) {
+            var match = handlePromiseFailure(e);
+            var tmp;
+            if (match !== undefined) {
+              var err = match;
+              tmp = Curry._1(setError, (function (param) {
+                      return loginError_of_string(err);
+                    }));
+            } else {
+              tmp = Curry._1(setError, (function (param) {
+                      return undefined;
+                    }));
+            }
+            return Promise.resolve(tmp);
+          }));
     return /* () */0;
   };
   return React.createElement("div", {
@@ -52,7 +88,7 @@ function Login(Props) {
                           placeholder: "Email",
                           required: true,
                           type: "email",
-                          value: match[0],
+                          value: email,
                           onChange: handleInputEmailChange
                         }), error !== undefined && error === 0 ? React.createElement("div", {
                             className: "error"
@@ -64,7 +100,7 @@ function Login(Props) {
                           placeholder: "Password",
                           required: true,
                           type: "password",
-                          value: match$1[0],
+                          value: password,
                           onChange: handleInputPasswordChange
                         }), error !== undefined && error === 1 ? React.createElement("div", {
                             className: "error"
@@ -79,6 +115,8 @@ var make = Login;
 
 export {
   loginError_of_string ,
+  handlePromiseFailure ,
+  loginUrl ,
   make ,
   
 }

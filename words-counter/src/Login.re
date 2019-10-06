@@ -1,4 +1,5 @@
 /* Behold! The login form. */
+[@bs.val] external alert: string => unit = "alert";
 
 [%bs.raw {|require("./Login.css")|}];
 
@@ -14,6 +15,17 @@ let loginError_of_string = str =>
   | _ => Some(OTHER)
   };
 
+let handlePromiseFailure =
+  [@bs.open]
+  (
+    fun
+    | Request.PostError(err) => {
+        err;
+      }
+  );
+
+let loginUrl = "some/url";
+
 [@react.component]
 let make = () => {
   let (email, setEmail) = React.useState(() => "");
@@ -28,6 +40,31 @@ let make = () => {
 
   let handleFormSubmit = e => {
     ReactEvent.Form.preventDefault(e);
+
+    let payload = Js.Dict.empty();
+    Js.Dict.set(payload, "email", Js.Json.string(email));
+    Js.Dict.set(payload, "password", Js.Json.string(password));
+
+    Js.Promise.(
+      Request.post(loginUrl, payload)
+      |> then_(_ =>
+           {
+             alert("login successful");
+             setError(_ => None);
+           }
+           |> resolve
+         )
+      |> catch(e =>
+           (
+             switch (handlePromiseFailure(e)) {
+             | Some(err) => setError(_ => loginError_of_string(err))
+             | None => setError(_ => None)
+             }
+           )
+           |> resolve
+         )
+      |> ignore
+    );
   };
 
   <div className="Login">
